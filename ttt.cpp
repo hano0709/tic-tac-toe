@@ -1,21 +1,31 @@
 #include<iostream>
 #include<cstring>
+#include<cstdlib>
 #define ROW 3
 #define COLUMN 3
 
 using namespace std;
+
+void clearScreen(){
+    #ifdef _WIN32
+        system("cls");
+    #endif
+}
 
 void drawLine(){
     cout << "---|-----|---" << endl;
 }
 
 void drawGrid(char (&grid)[ROW][COLUMN], int &p1Score, int &p2Score, string p1N, string p2N){
-    
+    clearScreen();
+    cout << "X-X-X-X-X-X TIC TAC TOE X-X-X-X-X-X";
+    cout << endl << endl;
+
     int pos = 1;
 
     cout << endl << endl;
     cout << p1N << ": " << p1Score << endl;
-    cout << p2N << ": " << p2Score << endl;
+    cout << p2N << ": " << p2Score << endl << endl;
 
     for(int i=0;i<ROW;i++){
         if(i==1){
