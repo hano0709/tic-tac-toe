@@ -9,11 +9,13 @@ void drawLine(){
     cout << "---|-----|---" << endl;
 }
 
-void drawGrid(char (&grid)[ROW][COLUMN]){
+void drawGrid(char (&grid)[ROW][COLUMN], int &p1Score, int &p2Score, string p1N, string p2N){
     
     int pos = 1;
 
     cout << endl << endl;
+    cout << p1N << ": " << p1Score << endl;
+    cout << p2N << ": " << p2Score << endl;
 
     for(int i=0;i<ROW;i++){
         if(i==1){
@@ -40,7 +42,7 @@ void drawGrid(char (&grid)[ROW][COLUMN]){
     
 }
 
-bool playX(string p1N, char (&grid)[ROW][COLUMN]){
+bool playX(string p1N, string p2N, int p1Score, int p2Score, char (&grid)[ROW][COLUMN]){
     int p1;
     int row, column;
     cout << p1N << " Enter position of X: ";
@@ -68,11 +70,11 @@ bool playX(string p1N, char (&grid)[ROW][COLUMN]){
         return false;
     }
 
-    drawGrid(grid);
+    drawGrid(grid, p1Score, p2Score, p1N, p2N);
     return true;
 }
 
-bool playO(string p2N, char (&grid)[ROW][COLUMN]){
+bool playO(string p1N, string p2N, int p1Score, int p2Score, char (&grid)[ROW][COLUMN]){
     int p2;
     int row, column;
     cout << p2N << " Enter position of O: ";
@@ -100,14 +102,40 @@ bool playO(string p2N, char (&grid)[ROW][COLUMN]){
         return false;
     }
 
-    drawGrid(grid);
+    drawGrid(grid, p1Score, p2Score, p1N, p2N);
     return true;
+}
+
+bool winner(char (&grid)[ROW][COLUMN]){
+    for(int i=0;i<ROW;i++){
+        if((grid[i][0]!='z') && (grid[i][0] == grid[i][1]) && (grid[i][1] == grid[i][2])){
+            return true;
+        }
+    }
+
+    for(int j=0;j<COLUMN;j++){
+        if((grid[0][j]!='z') && (grid[0][j] == grid[1][j]) && (grid[1][j] == grid[2][j])){
+            return true;
+        }
+    }
+
+    if((grid[0][0]!='z') && (grid[0][0] == grid[1][1]) && (grid[1][1] == grid[2][2])){
+        return true;
+    }
+
+    if((grid[0][2]!='z') && (grid[0][2] == grid[1][1]) && (grid[1][1] == grid[2][0])){
+        return true;
+    }
+
+    return false;
 }
 
 int main(){
 
     string p1N, p2N;
     char grid[ROW][COLUMN];
+
+    int p1Score = 0, p2Score = 0;
 
     memset(grid, 'z', sizeof(grid));
 
@@ -122,16 +150,53 @@ int main(){
     cout << "Enter Player 2 Name: ";
     cin >> p2N;
 
-    drawGrid(grid);
+    drawGrid(grid, p1Score, p2Score, p1N, p2N);
 
     while(true){
         
-        if(playX(p1N, grid)==false){
-            playX(p1N, grid);
+        if(playX(p1N, p2N, p1Score, p2Score, grid)==false){
+            playX(p1N, p2N, p1Score, p2Score, grid);
+        }
+        
+        if(winner(grid)==true){
+            cout << p1N << " won the game." << endl << "CONGRATULATIONS" << endl;
+            p1Score++;
+
+            cout << "Do you want to play again? (Y/N): ";
+            char choice;
+            cin >> choice;
+            
+            if(choice=='n' || choice =='N'){
+                cout << endl;
+                cout << p1N << ": " << p1Score << endl;
+                cout << p2N << ": " << p2Score << endl;
+                return 0;
+            } else {
+                memset(grid, 'z', sizeof(grid));
+                drawGrid(grid, p1Score, p2Score, p1N, p2N);
+            }
         }
 
-        if(playO(p2N, grid)==false){
-            playO(p2N, grid);
+        if(playO(p1N, p2N, p1Score, p2Score, grid)==false){
+            playO(p1N, p2N, p1Score, p2Score, grid);
+        }
+
+        if(winner(grid)==true){
+            cout << p2N << " won the game." << endl << "CONGRATULATIONS" << endl;
+            p2Score++;
+            cout << "Do you want to play again? (Y/N): ";
+            char choice;
+            cin >> choice;
+            
+            if(choice=='n' || choice =='N'){
+                cout << endl;
+                cout << p1N << ": " << p1Score << endl;
+                cout << p2N << ": " << p2Score << endl;
+                return 0;
+            } else {
+                memset(grid, 'z', sizeof(grid));
+                drawGrid(grid, p1Score, p2Score, p1N, p2N);
+            }
         }
 
     }
