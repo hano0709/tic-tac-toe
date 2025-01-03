@@ -42,6 +42,11 @@ void drawGrid(char (&grid)[ROW][COLUMN], int &p1Score, int &p2Score, string p1N,
     
 }
 
+void getRowColumn(int pos, int &row, int &col){
+    row = (pos - 1) / 3;
+    col = (pos - 1) % 3;
+}
+
 bool playX(string p1N, string p2N, int p1Score, int p2Score, char (&grid)[ROW][COLUMN]){
     int p1;
     int row, column;
@@ -51,21 +56,8 @@ bool playX(string p1N, string p2N, int p1Score, int p2Score, char (&grid)[ROW][C
         cout << "Enter Position within 1-9" << endl;
         return false;
     }
-    if(p1>=1 && p1<=3){
-        row = 0;
-    } else if(p1<=6){
-        row = 1;
-    } else {
-        row = 2;
-    }
-
-    if(p1%3 == 1){
-        column = 0;
-    } else if(p1%3 == 2){
-        column = 1;
-    } else {
-        column = 2;
-    }
+    
+    getRowColumn(p1, row, column);
 
     if(grid[row][column]!='O'){
         grid[row][column] = 'X';
@@ -87,21 +79,8 @@ bool playO(string p1N, string p2N, int p1Score, int p2Score, char (&grid)[ROW][C
         cout << "Enter Position within 1-9" << endl;
         return false;
     }
-    if(p2>=1 && p2<=3){
-        row = 0;
-    } else if(p2<=6){
-        row = 1;
-    } else {
-        row = 2;
-    }
-
-    if(p2%3 == 1){
-        column = 0;
-    } else if(p2%3 == 2){
-        column = 1;
-    } else {
-        column = 2;
-    }
+    
+    getRowColumn(p2, row, column);
 
     if(grid[row][column]!='X'){
         grid[row][column] = 'O';
