@@ -4,6 +4,7 @@
 This is a simple console-based implementation of the classic Tic Tac Toe game written in C++. 
 It allows two players to play the game, keeping track of their scores across multiple rounds. 
 The game also provides options to replay after a round ends, and it handles scenarios such as winning, tying, and invalid inputs.
+Additionally, the game now features automatic screen resets after each move, providing a cleaner and more interactive experience.
 
 ---
 
@@ -13,6 +14,7 @@ The game also provides options to replay after a round ends, and it handles scen
 - Input validation to prevent overwriting occupied positions.
 - Automatic detection of winners, ties, and valid moves.
 - Replay option after the game ends.
+- Screen reset: Clears the console screen after each move to keep the game view clean and up-to-date.
 
 ---
 
@@ -20,6 +22,7 @@ The game also provides options to replay after a round ends, and it handles scen
 ### Header Files Used
 - `iostream`: For input and output.
 - `cstring`: For initializing the game grid.
+- `cstdlib`: For clearing the console screen (via system calls).
 
 ### Constants
 - `ROW = 3`: Defines the number of rows in the grid.
@@ -33,6 +36,7 @@ The game also provides options to replay after a round ends, and it handles scen
 - **`playO()`**: Handles Player 2's move.
 - **`winner()`**: Checks if any player has won.
 - **`isTie()`**: Checks if the grid is full and the game is tied.
+- **`clearScreen()`: Clears the console screen after each move to make the interface cleaner.
 
 ### Main Gameplay Loop
 1. The game alternates between Player 1 and Player 2.
@@ -40,6 +44,7 @@ The game also provides options to replay after a round ends, and it handles scen
 3. The program checks for a winner or a tie.
 4. If a player wins, their score is updated.
 5. Players are prompted to replay or exit.
+6. Screen reset: After every move, the screen is cleared to enhance gameplay flow.
 
 ---
 
