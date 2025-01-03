@@ -47,6 +47,10 @@ bool playX(string p1N, string p2N, int p1Score, int p2Score, char (&grid)[ROW][C
     int row, column;
     cout << p1N << " Enter position of X: ";
     cin >> p1;
+    if(p1<0 || p1>9){
+        cout << "Enter Position within 1-9" << endl;
+        return false;
+    }
     if(p1>=1 && p1<=3){
         row = 0;
     } else if(p1<=6){
@@ -79,6 +83,10 @@ bool playO(string p1N, string p2N, int p1Score, int p2Score, char (&grid)[ROW][C
     int row, column;
     cout << p2N << " Enter position of O: ";
     cin >> p2;
+    if(p2<0 || p2>9){
+        cout << "Enter Position within 1-9" << endl;
+        return false;
+    }
     if(p2>=1 && p2<=3){
         row = 0;
     } else if(p2<=6){
@@ -130,6 +138,18 @@ bool winner(char (&grid)[ROW][COLUMN]){
     return false;
 }
 
+bool isTie(char (&grid)[ROW][COLUMN]){
+    for(int i=0;i<ROW;i++){
+        for(int j=0;j<COLUMN;j++){
+            if(grid[i][j]=='z'){
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 int main(){
 
     string p1N, p2N;
@@ -154,8 +174,10 @@ int main(){
 
     while(true){
         
-        if(playX(p1N, p2N, p1Score, p2Score, grid)==false){
-            playX(p1N, p2N, p1Score, p2Score, grid);
+        while(true){
+            if(playX(p1N, p2N, p1Score, p2Score, grid)==true){
+                break;
+            }
         }
         
         if(winner(grid)==true){
@@ -177,8 +199,28 @@ int main(){
             }
         }
 
-        if(playO(p1N, p2N, p1Score, p2Score, grid)==false){
-            playO(p1N, p2N, p1Score, p2Score, grid);
+        if(isTie(grid)){
+            cout << "Game Is A Tie." << endl;
+
+            cout << "Do you want to play again? (Y/N): ";
+            char choice;
+            cin >> choice;
+            
+            if(choice=='n' || choice =='N'){
+                cout << endl;
+                cout << p1N << ": " << p1Score << endl;
+                cout << p2N << ": " << p2Score << endl;
+                return 0;
+            } else {
+                memset(grid, 'z', sizeof(grid));
+                drawGrid(grid, p1Score, p2Score, p1N, p2N);
+            }            
+        }
+
+        while(true){
+            if(playO(p1N, p2N, p1Score, p2Score, grid)==true){
+                break;
+            }
         }
 
         if(winner(grid)==true){
@@ -199,5 +241,22 @@ int main(){
             }
         }
 
+        if(isTie(grid)){
+            cout << "Game Is A Tie." << endl;
+
+            cout << "Do you want to play again? (Y/N): ";
+            char choice;
+            cin >> choice;
+            
+            if(choice=='n' || choice =='N'){
+                cout << endl;
+                cout << p1N << ": " << p1Score << endl;
+                cout << p2N << ": " << p2Score << endl;
+                return 0;
+            } else {
+                memset(grid, 'z', sizeof(grid));
+                drawGrid(grid, p1Score, p2Score, p1N, p2N);
+            }            
+        }
     }
 }
